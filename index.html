@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto DFL-2 Freire - Industrialización con Paneles SIP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            padding: 15px;
+        }
+        
+        .poster {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border: 4px solid #2a5298;
+        }
+        
+        .header {
+            background: #2a5298;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 5px solid #1e3c72;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .header .subtitle {
+            font-size: 1em;
+            margin: 5px 0;
+        }
+        
+        /* Grid principal de 3 columnas */
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+        
+        .cell {
+            border: 2px solid #ddd;
+            padding: 15px;
+            background: white;
+        }
+        
+        .cell h2 {
+            color: white;
+            background: #2a5298;
+            font-size: 1.1em;
+            margin: -15px -15px 12px -15px;
+            padding: 10px 15px;
+            border-bottom: 3px solid #1e3c72;
+        }
+        
+        .cell h3 {
+            color: #2a5298;
+            font-size: 1em;
+            margin: 12px 0 8px 0;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+        
+        /* Celdas especiales */
+        .span-2 {
+            grid-column: span 2;
+        }
+        
+        .span-3 {
+            grid-column: span 3;
+        }
+        
+        .image-cell {
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+        
+        .image-cell img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .image-caption {
+            margin-top: 12px;
+            font-weight: bold;
+            color: #2a5298;
+            text-align: center;
+            font-size: 0.95em;
+        }
+        
+        /* Tablas de datos */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.85em;
+        }
+        
+        .data-table th {
+            background: #2a5298;
+            color: white;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .data-table td {
+            padding: 7px 6px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .data-table tr.highlight {
+            background: #e3f2fd;
+            font-weight: bold;
+        }
+        
+        /* Cajas de comparación */
+        .comparison-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .comp-item {
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .traditional {
+            background: #ffebee;
+            border: 2px solid #e57373;
+        }
+        
+        .sip {
+            background: #e8f5e9;
+            border: 2px solid #66bb6a;
+        }
+        
+        .comp-item h4 {
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        
+        .comp-value {
+            font-size: 1.6em;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+        
+        .traditional .comp-value {
+            color: #d32f2f;
+        }
+        
+        .sip .comp-value {
+            color: #2e7d32;
+        }
+        
+        .comp-item small {
+            font-size: 0.85em;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        /* Métricas */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin: 10px 0;
+        }
+        
+        .metric-box {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            border: 2px solid #ddd;
+        }
+        
+        .metric-box .number {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2a5298;
+            margin: 5px 0;
+        }
+        
+        .metric-box .label {
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        /* Listas */
+        .bullet-list {
+            list-style: none;
+            padding-left: 0;
+            font-size: 0.9em;
+        }
+        
+        .bullet-list li {
+            padding: 5px 0 5px 18px;
+            position: relative;
+            line-height: 1.4;
+        }
+        
+        .bullet-list li:before {
+            content: "▪";
+            position: absolute;
+            left: 5px;
+            color: #2a5298;
+            font-size: 1.2em;
+        }
+        
+        /* Cajas destacadas */
+        .highlight-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+        
+        .highlight-box strong {
+            color: #1976d2;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2a5298;
+            color: white;
+            padding: 15px 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            border-top: 5px solid #1e3c72;
+        }
+        
+        .footer h4 {
+            margin-bottom: 5px;
+            font-size: 1em;
+        }
+        
+        .footer p {
+            margin: 2px 0;
+            font-size: 0.85em;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            .poster {
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <!-- ENCABEZADO -->
+        <div class="header">
+            <h1>PROYECTO DFL-2 FREIRE: INDUSTRIALIZACIÓN CON PANELES SIP</h1>
+            <div class="subtitle">Comité de Vivienda Nuevo Amanecer - 133 Viviendas de 42 m² | Freire, La Araucanía</div>
+            <div class="subtitle">Universidad Autónoma de Chile - Diplomado en Métodos Modernos de Construcción y Construcción Industrializada</div>
+        </div>
+        
+        <!-- GRID PRINCIPAL -->
+        <div class="main-grid">
+            
+            <!-- FILA 1 -->
+            <div class="cell">
+                <h2>1. CONTEXTO DEL PROYECTO</h2>
+                <table class="data-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Valor</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Ubicación</strong></td>
+                        <td>Freire, La Araucanía</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Código SERVIU</strong></td>
+                        <td>153025</td>
+                    </tr>
+                    <tr>
+                        <td><strong>N° Viviendas</strong></td>
+                        <td>133 unidades DFL-2</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Superficie/viv.</strong></td>
+                        <td>42 m²</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Presupuesto total</strong></td>
+                        <td>135.692 UF</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Costos directos</strong></td>
+                        <td>107.521 UF</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>Costos invariantes</strong></td>
+                        <td>58.703 UF (77%)</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>Costos variables</strong></td>
+                        <td>25.106 UF (23%)</td>
+                    </tr>
+                </table>
+                
+                <div class="highlight-box">
+                    <strong>Hallazgo clave:</strong> El 77% del presupuesto es invariante, amplificando el impacto del ahorro sobre el 23% industrializable.
+                </div>
+            </div>
+            
+            <div class="cell">
+                <h2>2. ESPECIFICACIONES SIP</h2>
+                <h3>Paneles por vivienda:</h3>
+                <table class="data-table">
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Cant.</th>
+                        <th>Espesor</th>
+                    </tr>
+                    <tr>
+                        <td>TECH-163 (Techumbre)</td>
+                        <td>19</td>
+                        <td>163mm</td>
+                    </tr>
+                    <tr>
+                        <td>PER-106 (Perimetral)</td>
+                        <td>24</td>
+                        <td>106mm</td>
+                    </tr>
+                    <tr>
+                        <td>INT-95 (Interior)</td>
+                        <td>16</td>
+                        <td>95mm</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>TOTAL</strong></td>
+                        <td><strong>59</strong></td>
+                        <td>-</td>
+                    </tr>
+                </table>
+                
+                <h3>Total proyecto:</h3>
+                <table class="data-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Valor</th>
+                    </tr>
+                    <tr>
+                        <td>Total paneles</td>
+                        <td>7.847 unidades</td>
+                    </tr>
+                    <tr>
+                        <td>Superficie total</td>
+                        <td>23.384 m²</td>
+                    </tr>
+                    <tr>
+                        <td>Peso total</td>
+                        <td>423,8 ton (-97,7%)</td>
+                    </tr>
+                    <tr>
+                        <td>Dimensión panel</td>
+                        <td>2,44 × 1,22 m</td>
+                    </tr>
+                    <tr>
+                        <td>Peso unitario</td>
+                        <td>54 kg (18 kg/m²)</td>
+                    </tr>
+                    <tr>
+                        <td>Tolerancia CNC</td>
+                        <td>±3 mm</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="cell">
+                <h2>3. ANÁLISIS DE COSTOS</h2>
+                <h3>Componente Variable (23,3%):</h3>
+                <table class="data-table">
+                    <tr>
+                        <th>Ítem</th>
+                        <th>Tradicional</th>
+                        <th>SIP</th>
+                        <th>Δ</th>
+                    </tr>
+                    <tr>
+                        <td>Materiales</td>
+                        <td>16.460 UF</td>
+                        <td>23.461 UF</td>
+                        <td style="color: #d32f2f;">+42,5%</td>
+                    </tr>
+                    <tr>
+                        <td>Mano obra</td>
+                        <td>7.358 UF</td>
+                        <td>3.973 UF</td>
+                        <td style="color: #2e7d32;"><strong>-46%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Equipos</td>
+                        <td>1.822 UF</td>
+                        <td>729 UF</td>
+                        <td style="color: #2e7d32;"><strong>-60%</strong></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>Subtotal</strong></td>
+                        <td><strong>25.106 UF</strong></td>
+                        <td><strong>28.163 UF</strong></td>
+                        <td style="color: #d32f2f;"><strong>+12,2%</strong></td>
+                    </tr>
+                </table>
+                
+                <h3>Análisis Financiero:</h3>
+                <table class="data-table">
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Valor</th>
+                    </tr>
+                    <tr>
+                        <td>Ahorro total</td>
+                        <td>20.655,17 UF (-19,2%)</td>
+                    </tr>
+                    <tr>
+                        <td>VAN (10 años)</td>
+                        <td>+16.498 UF</td>
+                    </tr>
+                    <tr>
+                        <td>TIR</td>
+                        <td>38,6%</td>
+                    </tr>
+                    <tr>
+                        <td>Tasa SERVIU</td>
+                        <td>8%</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>Viabilidad</strong></td>
+                        <td><strong>APROBADO</strong></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- FILA 2 -->
+            <div class="cell span-2 image-cell">
+                <h2>MODELO 3D VIVIENDA TIPO 42 m²</h2>
+                <img src="image/planta.png" alt="Modelo 3D">
+                <div class="image-caption">Sistema constructivo industrializado | 59 paneles SIP | Tolerancia ±3mm | NCh 3744:2023</div>
+            </div>
+            
+            <div class="cell">
+                <h2>4. KPI PRODUCTIVIDAD</h2>
+                <h3>Plazo de Construcción:</h3>
+                <div class="comparison-box">
+                    <div class="comp-item traditional">
+                        <h4>Tradicional</h4>
+                        <div class="comp-value">18</div>
+                        <small>meses</small>
+                        <small>1.800 hrs/viv</small>
+                    </div>
+                    <div class="comp-item sip">
+                        <h4>SIP</h4>
+                        <div class="comp-value">9,5</div>
+                        <small>meses</small>
+                        <small>160 hrs/viv</small>
+                        <strong style="color: #2e7d32;">↓ 47%</strong>
+                    </div>
+                </div>
+                
+                <h3>Mano de Obra:</h3>
+                <div class="comparison-box">
+                    <div class="comp-item traditional">
+                        <h4>Tradicional</h4>
+                        <div class="comp-value">0,029</div>
+                        <small>m²/op-día</small>
+                        <small>211,81 UF/viv</small>
+                    </div>
+                    <div class="comp-item sip">
+                        <h4>SIP</h4>
+                        <div class="comp-value">1,31</div>
+                        <small>m²/op-día</small>
+                        <small>114,38 UF/viv</small>
+                        <strong style="color: #2e7d32;">↑ 4.517%</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FILA 3 -->
+            <div class="cell">
+                <h2>5. KPI CALIDAD Y AMBIENTE</h2>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="label">Residuos RCD</div>
+                        <div class="number">-70%</div>
+                        <small>836 → 251 m³</small>
+                    </div>
+                    <div class="metric-box">
+                        <div class="label">Emisiones CO₂</div>
+                        <div class="number">-34%</div>
+                        <small>1.850 → 1.221 kg/m²</small>
+                    </div>
+                    <div class="metric-box">
+                        <div class="label">Defectos</div>
+                        <div class="number">-79%</div>
+                        <small>8% → 1,5%</small>
+                    </div>
+                    <div class="metric-box">
+                        <div class="label">Consumo energía</div>
+                        <div class="number">-35%</div>
+                        <small>85 → 55 kWh/m²</small>
+                    </div>
+                    <div class="metric-box">
+                        <div class="label">Merma materiales</div>
+                        <div class="number">-80%</div>
+                        <small>15% → 3%</small>
+                    </div>
+                    <div class="metric-box">
+                        <div class="label">Aislamiento térmico</div>
+                        <div class="number">+81%</div>
+                        <small>R 3,2 → 5,8</small>
+                    </div>
+                    <div class="metric-box">
+                        <div class="label">Aislamiento acústico</div>
+                        <div class="number">+32%</div>
+                        <small>28 → 37 dB</small>
+                    </div>
+                    <div class="metric-box">
+                        <div class="label">Fijaciones</div>
+                        <div class="number">-67%</div>
+                        <small>86 → 59 componentes</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cell">
+                <h2>6. HABILITADOR BIM NID 400</h2>
+                <ul class="bullet-list">
+                    <li><strong>Software:</strong> Revit 2024 + Navisworks</li>
+                    <li><strong>Familias paramétricas:</strong> 3 tipos desarrollados</li>
+                    <li><strong>Tiempo modelado:</strong> 60 → 25 hrs (-58%)</li>
+                    <li><strong>Clashes constructivos:</strong> 0 (vs 12 tradicional)</li>
+                    <li><strong>Archivos IFC 4.0:</strong> 247 MB</li>
+                    <li><strong>Precisión CNC:</strong> ±3mm garantizada</li>
+                    <li><strong>Vida útil digital:</strong> 75 años (PAS 1192-3)</li>
+                </ul>
+                
+                <h3>Lean Construction:</h3>
+                <ul class="bullet-list">
+                    <li><strong>Equipos montaje:</strong> 5 × 4 operarios</li>
+                    <li><strong>Takt Time:</strong> 4,5 días/vivienda</li>
+                    <li><strong>Capacidad:</strong> 22 viviendas/mes</li>
+                    <li><strong>WIP optimizado:</strong> 6 unidades (-60%)</li>
+                    <li><strong>PPC semanal:</strong> 88% (+35%)</li>
+                    <li><strong>Muda eliminada:</strong> 77% (8% vs 35%)</li>
+                </ul>
+            </div>
+            
+            <div class="cell">
+                <h2>7. HABILITADOR DfMA</h2>
+                <h3>Design for Manufacture and Assembly:</h3>
+                <table class="data-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Antes</th>
+                        <th>Después</th>
+                        <th>Mejora</th>
+                    </tr>
+                    <tr>
+                        <td>Componentes estructurales</td>
+                        <td>86</td>
+                        <td>59</td>
+                        <td style="color: #2e7d32;">-31%</td>
+                    </tr>
+                    <tr>
+                        <td>Tiempo ensamble</td>
+                        <td>45 días</td>
+                        <td>4,5 días</td>
+                        <td style="color: #2e7d32;">-90%</td>
+                    </tr>
+                    <tr>
+                        <td>Tipos herramientas</td>
+                        <td>12</td>
+                        <td>3</td>
+                        <td style="color: #2e7d32;">-75%</td>
+                    </tr>
+                    <tr>
+                        <td>Tasa defectos</td>
+                        <td>8%</td>
+                        <td>1,5%</td>
+                        <td style="color: #2e7d32;">-81%</td>
+                    </tr>
+                </table>
+                
+                <div class="highlight-box">
+                    <strong>Simplificación clave:</strong> 4 pernos estructurales por panel vs clavado manual tradicional. Reducción de fijaciones: -67%
+                </div>
+            </div>
+            
+            <!-- FILA 4 -->
+            <div class="cell">
+                <h2>8. CRONOGRAMA</h2>
+                <table class="data-table">
+                    <tr>
+                        <th>Fase</th>
+                        <th>Duración</th>
+                        <th>Actividades</th>
+                    </tr>
+                    <tr>
+                        <td><strong>1. Preparación</strong></td>
+                        <td>2 meses</td>
+                        <td>Validación SERVIU<br>Moldes CNC (UF 35.000)<br>Logística (24 viajes)<br>Capacitación 60 inspectores</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. Montaje</strong></td>
+                        <td>6 meses</td>
+                        <td>Piloto: 12 viv (6 d/u)<br>Producción: 88 viv (4,5 d/u)<br>Final: 33 viv<br>2 camiones/semana</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. Cierre</strong></td>
+                        <td>1,5 meses</td>
+                        <td>Instalaciones finales<br>Entrega SERVIU<br>Buffer climático</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>TOTAL</strong></td>
+                        <td><strong>9,5 meses</strong></td>
+                        <td><strong>vs 18 tradicional</strong></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="cell">
+                <h2>9. LOGÍSTICA Y PROVEEDOR</h2>
+                <h3>Proveedor Principal:</h3>
+                <table class="data-table">
+                    <tr>
+                        <th>Parámetro</th>
+                        <th>Detalle</th>
+                    </tr>
+                    <tr>
+                        <td>Empresa</td>
+                        <td>Estructuras SIPHOUSE</td>
+                    </tr>
+                    <tr>
+                        <td>Ubicación</td>
+                        <td>Lautaro (60 km)</td>
+                    </tr>
+                    <tr>
+                        <td>Capacidad</td>
+                        <td>3.500 m²/mes</td>
+                    </tr>
+                    <tr>
+                        <td>Precio cerrado</td>
+                        <td>UF 4,2/m²</td>
+                    </tr>
+                    <tr>
+                        <td>Precio mercado</td>
+                        <td>UF 4,7/m²</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>Ahorro</strong></td>
+                        <td><strong>11% bajo mercado</strong></td>
+                    </tr>
+                </table>
+                
+                <h3>Plan de Entregas:</h3>
+                <ul class="bullet-list">
+                    <li>Frecuencia: 2 camiones/semana</li>
+                    <li>Carga: 327 paneles/camión</li>
+                    <li>Total viajes: 24</li>
+                    <li>Duración: 7 semanas</li>
+                    <li>Buffer: 1 semana (clima)</li>
+                </ul>
+            </div>
+            
+            <div class="cell">
+                <h2>10. NORMATIVA Y GESTIÓN</h2>
+                <h3>Marco Normativo:</h3>
+                <ul class="bullet-list">
+                    <li><strong>NCh 3744:2023:</strong> Sistemas construcción con paneles SIP</li>
+                    <li><strong>Decreto Exento 40/2024:</strong> Variantes constructivas DFL-2</li>
+                    <li><strong>OGUC 2024:</strong> Zona F (Freire) cumple requisitos</li>
+                    <li><strong>NCh 2434:2019:</strong> Acústica en edificaciones</li>
+                </ul>
+                
+                <h3>Gestión de Riesgos:</h3>
+                <table class="data-table">
+                    <tr>
+                        <th>Riesgo</th>
+                        <th>Prob.</th>
+                        <th>Mitigación</th>
+                    </tr>
+                    <tr>
+                        <td>Variación ±10% viv.</td>
+                        <td>Alta</td>
+                        <td>Cláusula ajuste auto.</td>
+                    </tr>
+                    <tr>
+                        <td>Retraso paneles</td>
+                        <td>Media</td>
+                        <td>Penalidad UF 50/día</td>
+                    </tr>
+                    <tr>
+                        <td>Falla proveedor único</td>
+                        <td>Baja</td>
+                        <td>SIPTEC respaldo 80%</td>
+                    </tr>
+                    <tr>
+                        <td>Rechazo inspectores</td>
+                        <td>Media</td>
+                        <td>Capacitación 40 hrs</td>
+                    </tr>
+                </table>
+            </div>
+            
+        </div>
+        
+        <!-- FOOTER -->
+        <div class="footer">
+            <div>
+                <h4>EQUIPO DE TRABAJO</h4>
+                <p><strong>Diego Eduardo Fernández Gutiérrez</strong> </p>
+                <p><strong>Claudio Andrés Gil Terra</strong> </p>
+                <p><strong>Pablo Andrés Jara Jara</strong> </p>
+            
